@@ -11,9 +11,14 @@ class CustomTextFormField extends StatelessWidget {
   final bool autoFocus;
   final ValueChanged<String>? onChanged;
 
-
   // boolean 값의 파라미터는 false, true 등을 기본값으로 넣어주기
-  const CustomTextFormField({this.hintText, this.errorText, this.obscureText = false, this.autoFocus= false, this.onChanged, Key? key})
+  const CustomTextFormField(
+      {this.hintText,
+      this.errorText,
+      this.obscureText = false,
+      this.autoFocus = false,
+      this.onChanged,
+      Key? key})
       : super(key: key);
 
   @override
@@ -53,6 +58,9 @@ class CustomTextFormField extends StatelessWidget {
         filled: true,
         // 모든 Input 상태의 기본 스타일 세팅
         border: baseBorder,
+        // enableBorder : 기본 값이 검정색 테두리로 설정 되어 있음
+        // enableBorder : 활성화가 되어 있지 않는 경우의 border styleeeee
+        enabledBorder: baseBorder,
         // 포커스 할때 색상 지정
         focusedBorder: baseBorder.copyWith(
           // borderSide 변경 시 baseBoder 지정된 borderSide 변경

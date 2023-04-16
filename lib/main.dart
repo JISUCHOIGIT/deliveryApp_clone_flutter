@@ -1,3 +1,4 @@
+import 'package:delivery_app_clone_flutter/common/component/custom_text_formfield.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,22 @@ class _App extends StatelessWidget {
       // 로그인 : accessToken, refreshToken 사용
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(),
+        backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ios 키보드 : command + shift + k
+            CustomTextFormField(
+              hintText: '이메일을 입력해주세요',
+              onChanged: (value) {},
+            ),
+            CustomTextFormField(
+              hintText: '비밀번호를 입력해주세요',
+              onChanged: (value) {},
+              obscureText: true,
+            ),
+          ],
+        ),
       ),
     );
   }

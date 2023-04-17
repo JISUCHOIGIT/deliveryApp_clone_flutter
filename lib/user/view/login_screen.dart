@@ -3,18 +3,29 @@ import 'dart:io';
 
 import 'package:delivery_app_clone_flutter/common/const/colors.dart';
 import 'package:delivery_app_clone_flutter/common/layout/default_layout.dart';
+import 'package:delivery_app_clone_flutter/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../common/component/custom_text_formfield.dart';
+import '../../common/const/data.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  // auth/login API, auth/token API
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  String username = "";
+  String password = "";
+
+  // auth/login API, auth/token API
   @override
   Widget build(BuildContext context) {
+
     final dio = Dio();
 
     /**localhost*/
@@ -49,12 +60,18 @@ class LoginScreen extends StatelessWidget {
                 // ios 키보드 : command + shift + k
                 CustomTextFormField(
                   hintText: '이메일을 입력해주세요',
-                  onChanged: (value) {},
+                  // onChanged 텍스트 필드 값이 변화할 때마다 값을 받아와서 바꿈
+                  onChanged: (value) {
+                    username = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
                   hintText: '비밀번호를 입력해주세요',
-                  onChanged: (value) {},
+                  // onChanged 텍스트 필드 값이 변화할 때마다 값을 받아와서 바꿈
+                  onChanged: (value) {
+                    password = value;
+                  },
                   obscureText: true,
                 ),
                 const SizedBox(
@@ -63,7 +80,8 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     // ID:비밀번호 -> Base64로 변환해야 함
-                    final rawString = 'test@codefactory.ai:testtest';
+                    final rawString = '$username:$password';
+                    print(rawString);
 
                     // Codec : convert / 일반 스트링 base64로 변환
                     // 어떻게 변환할건지
@@ -81,7 +99,21 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                     );
-                    print(resp.data);
+                    // login id,pw 일치하고 api 오류가 나지 않으면 RootTab으로 이동
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => RootTab(),
+                      ),
+                    );
+                    /**token 호출하는 곳에서 RefreshToken, accessToken flutter_secure_storage 저장*/
+                    // refreshToken
+                    final refreshToken = resp.data['refreshToken'];
+                    // accessToken
+                    final accessToken = resp.data['accessToken'];
+
+                    // storage [accessToken, refreshToken] 저장
+                    await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                    await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
                   },
                   // ElevatedButton style
                   style: ElevatedButton.styleFrom(

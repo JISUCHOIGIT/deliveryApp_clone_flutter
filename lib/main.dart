@@ -1,4 +1,5 @@
 import 'package:delivery_app_clone_flutter/common/component/custom_text_formfield.dart';
+import 'package:delivery_app_clone_flutter/common/view/splash_screen.dart';
 import 'package:delivery_app_clone_flutter/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class _App extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.white,
         // 로그인 화면
-        body: LoginScreen(),
+        body: SplashScreen(),
       ),
     );
   }

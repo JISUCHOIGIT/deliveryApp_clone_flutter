@@ -7,19 +7,47 @@ class DefaultLayout extends StatelessWidget {
   final Widget child;
   // background color
   final Color? backgroundColor;
+  // appBar title
+  final String? title;
+  final Widget? bottomNavigationBar;
 
   const DefaultLayout({
     required this.child,
     this.backgroundColor,
+    this.title,
+    this.bottomNavigationBar,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundcolor를 받지 않은 경우 null이면 Colors.white
+      // backgroundColor 받지 않아 null 일 경우 Colors.white
       backgroundColor: backgroundColor ?? Colors.white,
+      appBar: renderAppBar(),
       body: child,
+      bottomNavigationBar: bottomNavigationBar,
     );
+  }
+
+  // return null 위해서 AppBar?
+  AppBar? renderAppBar() {
+    // title == null 처리
+    if (title == null) {
+      return null;
+    } else {
+      return AppBar(
+        elevation: 0,
+        title: Text(
+          title!,
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      );
+    }
   }
 }

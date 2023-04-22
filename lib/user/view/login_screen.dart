@@ -28,14 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final dio = Dio();
 
-    /**localhost*/
-    // 안드로이드 에뮬레이터는 ip가 좀 다름
-    final emulatorIp = '10.0.2.2:3000';
-    // 아이폰 시뮬레이터는 현재 내 컴퓨터 네트워크와 같음
-    final simulatorIp = '127.0.0.1:3000';
-
-    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
-
     return DefaultLayout(
       // 키보드가 올라올 시 overflow가 될 수가 있으므로 overflow가 되는 제일 윗 위젯 상단에 singleChildScrollView로 만들기
       child: SingleChildScrollView(
@@ -123,18 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final refreshToken =
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY4MTczNjE4MywiZXhwIjoxNjgxODIyNTgzfQ.ygZrzTlUst6IgKAW7MnxoM2xaOX7nIz2jDQgKi71iO4';
 
-                    final resp = await dio.post(
-                      'http://$ip/auth/token',
-                      options: Options(
-                        headers: {
-                          'authorization': 'Bearer $refreshToken',
-                        },
-                      ),
-                    );
-                    print(resp.data);
                   },
                   // TextButton Style
                   style: TextButton.styleFrom(

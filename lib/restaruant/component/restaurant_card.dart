@@ -10,22 +10,22 @@ class RestaurantCard extends StatelessWidget {
   // 레스토랑 태그
   final List<String> tags;
   // 평점 갯수
-  final int ratingCount;
+  final int ratingsCount;
   // 배송 걸리는 시간
   final int deliveryTime;
   // 배송 비용
   final int deliveryFee;
   // 평균 평점
-  final double rating;
+  final double ratings;
 
   const RestaurantCard({
     required this.image,
     required this.name,
     required this.tags,
-    required this.ratingCount,
+    required this.ratingsCount,
     required this.deliveryTime,
     required this.deliveryFee,
-    required this.rating,
+    required this.ratings,
     Key? key,
   }) : super(key: key);
 
@@ -52,6 +52,7 @@ class RestaurantCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             // 리스트 텍스트 합칠 때 다른 문자랑 합치고 싶을 때 사용
             Text(
+              // 리스트 데이터를 한번에 합칠 수 있음
               tags.join(' · '),
               style: TextStyle(
                 color: BODY_TEXT_COLOR,
@@ -60,16 +61,22 @@ class RestaurantCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
+            // Icon + Text 위젯
             Row(
               children: [
-                _IconText(icon: Icons.star, label: rating.toString()),
+                _IconText(icon: Icons.star, label: ratings.toString()),
                 renderDot(),
-                _IconText(icon: Icons.receipt, label: ratingCount.toString()),
+                _IconText(icon: Icons.receipt, label: ratingsCount.toString()),
                 renderDot(),
-                _IconText(icon: Icons.timelapse_outlined, label: '$deliveryTime분'),
+                _IconText(
+                    icon: Icons.timelapse_outlined, label: '$deliveryTime분'),
                 renderDot(),
                 // 조건으로 값을 다르게 나타내기
-                _IconText(icon: Icons.monetization_on, label: '${deliveryFee == 0 ? '무료' : deliveryFee.toString()}'),
+                _IconText(
+                    icon: Icons.monetization_on,
+                    label:
+                        // deliveryFee 0 => 무료로 표시 해주기
+                        '${deliveryFee == 0 ? '무료' : deliveryFee.toString()}'),
               ],
             ),
           ],
@@ -77,18 +84,24 @@ class RestaurantCard extends StatelessWidget {
       ],
     );
   }
-  renderDot(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(' · ', style: TextStyle(
-        fontSize: 12.0,
-        fontWeight: FontWeight.w500,
-      ),),
+
+  renderDot() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
+      child: Text(
+        ' · ',
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }
 
+// 아이콘과 텍스트가 한쌍의 쌍으로 반복
 class _IconText extends StatelessWidget {
+  // IconData = Icons.
   final IconData icon;
   final String label;
 
@@ -108,10 +121,13 @@ class _IconText extends StatelessWidget {
           size: 14.0,
         ),
         const SizedBox(width: 8.0),
-        Text(label, style: TextStyle(
-          fontSize: 12.0,
-          fontWeight: FontWeight.w500,
-        ),)
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
